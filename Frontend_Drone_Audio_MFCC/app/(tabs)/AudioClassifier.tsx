@@ -83,10 +83,13 @@ const AudioClassifier = () => {
             // WEB: Append the native File object directly. No fetching needed.
             formData.append('file', fileObj, filename);
         } else {
-            // MOBILE: Use the fetch-to-blob workaround
-            const localResponse = await fetch(uri);
-            const blob = await localResponse.blob();
-            formData.append('file', blob, filename);
+            const fileType = filename.endsWith('.wav') ? 'audio/wav' : filename.endsWith('.mp3') ? 'audio/mpeg' : 'audio/*';
+            
+            formData.append('file', {
+              uri: uri,
+              name: filename || 'audio.mp3',
+              type: fileType, 
+            } as any);
         }
 
         // 2. Send to Flask
@@ -174,6 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     padding: 20,
+    paddingBottom: 200,
   },
   title: {
     color:'#66C8D2',

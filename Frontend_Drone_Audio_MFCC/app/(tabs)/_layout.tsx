@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { useAuth } from '../../context/context';
 
 // ----- tabs _layout ---------------------
@@ -14,6 +14,7 @@ export default function TabLayout() {
       screenOptions={{
         headerStyle:{
           backgroundColor: '#272532EB',
+          height: 120,
         },
         headerTintColor: '#E5E4E2',
         tabBarActiveTintColor: '#D8DC24',
@@ -48,7 +49,7 @@ export default function TabLayout() {
               <View style={styles.buttonContainer}>
                 <Pressable onPress={logout} style={styles.logout}>
                   <Ionicons name="log-out-outline" size={30} color="#fef5ee"/>
-                  <Text style={styles.logoutText}>Logout</Text>
+                  {/* <Text style={styles.logoutText}>Logout</Text> */}
                 </Pressable>
               </View>
               <Image
@@ -62,7 +63,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="AudioClassifier"
         options={{
-          title: 'UPLOAD AUDIO',
+          title: 'AUDIO',
           headerShown: true,
           tabBarIcon: ({focused, color}) => ( 
             <Ionicons 
@@ -82,7 +83,7 @@ export default function TabLayout() {
               <View style={styles.buttonContainer}>
                 <Pressable onPress={logout} style={styles.logout}>
                   <Ionicons name="log-out-outline" size={30} color="#fef5ee"/>
-                  <Text style={styles.logoutText}>Logout</Text>
+                  {/* <Text style={styles.logoutText}>Logout</Text> */}
                 </Pressable>
               </View>
               <Image
@@ -96,7 +97,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="MfccClassifier"
         options={{
-          title: 'UPLOAD MFCC',
+          title: 'MFCC',
           headerShown: true,
           tabBarIcon: ({focused, color}) => ( 
             <Ionicons 
@@ -116,7 +117,7 @@ export default function TabLayout() {
               <View style={styles.buttonContainer}>
                 <Pressable onPress={logout} style={styles.logout}>
                   <Ionicons name="log-out-outline" size={30} color="#fef5ee"/>
-                  <Text style={styles.logoutText}>Logout</Text>
+                  {/* <Text style={styles.logoutText}>Logout</Text> */}
                 </Pressable>
               </View>
               <Image
@@ -150,7 +151,7 @@ export default function TabLayout() {
               <View style={styles.buttonContainer}>
                 <Pressable onPress={logout} style={styles.logout}>
                   <Ionicons name="log-out-outline" size={30} color="#fef5ee"/>
-                  <Text style={styles.logoutText}>Logout</Text>
+                  {/* <Text style={styles.logoutText}>Logout</Text> */}
                 </Pressable>
               </View>
               <Image
@@ -167,10 +168,14 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 40, 
-    height: 35, 
-    margin: 35, 
+    width: 60, 
+    height: 47, 
+    marginTop: 35, 
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 35,
     resizeMode: 'contain',
+    // alignContent: 'center',
   },
   headerRightContainer: {
     flexDirection: 'row',
@@ -182,12 +187,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#311e11',
     marginTop: 30,
     marginBottom: 30,
-    height: 50,
+    height: 60,
   },
   logout:{
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 5,
+    justifyContent: 'center',
+    padding: 12,
   },
   logoutText: {
     color: '#fef5ee',

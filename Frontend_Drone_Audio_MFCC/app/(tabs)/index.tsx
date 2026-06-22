@@ -52,8 +52,9 @@ const styles = StyleSheet.create({
     alignItems:'flex-end',
     flexDirection: 'row',
     paddingHorizontal: 15,
-    paddingTop: 10,
+    // paddingTop: 10,
     zIndex: 10,
+    marginBottom: 40,
   },
   buttonContainer: {
     borderColor: '#945b34',
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 40,
     fontWeight: 'bold',
-    // fontFamily: 'San Francisco',
   },
   content: {
     color: '#A9A9A9',

@@ -1,12 +1,12 @@
+import { useAuth } from '@/context/context';
 import { PredictionResult } from '@/interfaces/interfaces';
 import { supabase } from '@/services/supabase';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { API_BASE_URL } from '../../constants/config';
-import { useAuth } from '@/context/context';
 
 declare global {
   interface FormData {
@@ -66,7 +66,7 @@ const MfccClassifier = () => {
 
       if (error) console.error("Failed to save to database:", error);
     } else {
-      alert("Analysis failed. Make sure your Flask server is running.");
+      alert("Analysis failed. Check your Expo terminal or Flask console logs for the HTTP 500 error traceback.")
     }
     
     setIsLoading(false);
@@ -77,19 +77,32 @@ const MfccClassifier = () => {
     try {
       let formData = new FormData();
 
-      const localResponse = await fetch(imageUri);
-      const blob = await localResponse.blob();
-
-      formData.append('file', blob, fileName || 'mfcc.jpg');
+      if (Platform.OS === 'web') {
+        // Web requires the blob conversion
+        const localResponse = await fetch(imageUri);
+        const blob = await localResponse.blob();
+        formData.append('file', blob, fileName || 'mfcc.jpg');
+      } else {
+        // Mobile requires the raw file object
+        formData.append('file', {
+          uri: imageUri,
+          name: fileName || 'mfcc.jpg',
+          type: 'image/jpeg', 
+        } as any);
+      }
 
       let response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         body: formData,
+        headers: {
+          // Do NOT set 'Content-Type' manually here; fetch sets the correct multipart boundary automatically
+          'Accept': 'application/json',
+        },
       });
       
       if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Server returned ${response.status}: ${errorText}`);
+        const errorText = await response.text();
+        throw new Error(`Server returned ${response.status}: ${errorText}`);
       }
 
       let json = await response.json();
@@ -163,6 +176,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     padding: 20,
+    paddingBottom: 200,
   },
   title: {
     color:'#4fb17f',
