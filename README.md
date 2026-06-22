@@ -37,7 +37,7 @@ The tech stack comprises of the following:
 - Database: PostgreSQL
 - Authentication: Supabase Auth
 
-## Prerequesites
+## Prerequisites
 
 ## Installation Instructions
 
