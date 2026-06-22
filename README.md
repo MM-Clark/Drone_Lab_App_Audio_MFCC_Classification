@@ -1,4 +1,4 @@
-# Drone Lab App to House Audio MFCC Classification CNN Model 
+# Drone Lab Audio MFCC Classification App Using CNN 
 
 The application presented in the repository improves user accessibility to the housed CNN model. The frontend uses the React Native Expo platform, while the backend uses Flask and Supabase. 
 
