@@ -1,17 +1,22 @@
 import os
-import numpy as np
+os.environ["TF_USE_LEGACY_KERAS"] = "1"
+
 import tensorflow as tf
+import numpy as np
 from flask import Flask, request, jsonify
 from PIL import Image
 from flask_cors import CORS
 import librosa
 from werkzeug.utils import secure_filename
+import traceback
+import io
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # 1. Load model globally
-model = tf.keras.models.load_model('drone_crnn.keras')
+# model = tf.keras.models.load_model('drone_crnn.keras')
+model = tf.keras.models.load_model('newest_cnn_drone_mfcc_classifier.h5')
 
 CLASS_NAMES = [
     'Autel_Evo_II', 'DJI_Avata', 'DJI_FPV', 'DJI_Matrice200', 'DJI_Matrice200_v2',
@@ -39,9 +44,14 @@ def predict_mfcc():
         return jsonify({'error': 'No selected file'}), 400
 
     try:
+        file_bytes = file.read()
         image = Image.open(file.stream).convert('RGB')
-        image = image.resize((120, 120))
-        img_array = np.array(image) / 255.0
+        image = image.resize((128, 128))
+
+        img_array = np.array(image) 
+
+        img_array = img_array[:, :, ::-1]          # 1. Flip RGB to BGR layout
+        img_array = img_array.astype(np.float32)   # 2. Keep 0-255 scale (DO NOT divide by 255.0)
         img_array = np.expand_dims(img_array, axis=0) 
 
         predictions = model.predict(img_array)
@@ -51,12 +61,20 @@ def predict_mfcc():
         probabilities = tf.nn.softmax(predictions[0])
         confidence = float(np.max(probabilities)) * 100
 
+        print("\n--- [MODEL DIAGNOSTIC] ---")
+        print(f"Input Matrix Min value: {img_array.min()} | Max value: {img_array.max()}")
+        print("Raw Prediction Vector (Logits/Probabilities):")
+        print(predictions) 
+        print(f"Highest Index Picked: {predicted_index}")
+        print("---------------------------\n")
+
         return jsonify({
             'drone_model': CLASS_NAMES[predicted_index],
             'confidence': f"{confidence:.2f}%"
         })
 
     except Exception as e:
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 # ==========================================
@@ -85,9 +103,12 @@ def predict_audio():
         # 3. Convert math array to the visual 120x120 format the model expects
         mfccs_normalized = ((mfccs - mfccs.min()) / (mfccs.max() - mfccs.min() + 1e-8) * 255).astype(np.uint8)
         img = Image.fromarray(mfccs_normalized).convert('RGB')
-        img = img.resize((120, 120))
+        img = img.resize((128, 128))
         
-        img_array = np.array(img) / 255.0
+        img_array = np.array(img) 
+        
+        img_array = img_array[:, :, ::-1]          # 1. Flip RGB to BGR layout
+        img_array = img_array.astype(np.float32)   # 2. Keep 0-255 scale (DO NOT divide by 255.0)
         img_array = np.expand_dims(img_array, axis=0) 
 
         # 4. Predict
@@ -98,12 +119,20 @@ def predict_audio():
         probabilities = tf.nn.softmax(predictions[0])
         confidence = float(np.max(probabilities)) * 100
 
+        print("\n--- [MODEL DIAGNOSTIC] ---")
+        print(f"Input Matrix Min value: {img_array.min()} | Max value: {img_array.max()}")
+        print("Raw Prediction Vector (Logits/Probabilities):")
+        print(predictions) 
+        print(f"Highest Index Picked: {predicted_index}")
+        print("---------------------------\n")
+
         return jsonify({
             'drone_model': CLASS_NAMES[predicted_index],
             'confidence': f"{confidence:.2f}%"
         })
 
     except Exception as e:
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
         
     finally:
