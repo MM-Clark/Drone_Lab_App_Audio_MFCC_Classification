@@ -9,6 +9,34 @@ may be accessed via the Frontend_Drone_Audio_MFCC folder. This folder contains R
 
 ## Tech Stack
 
+The tech stack comprises of the following: 
+
+### Frontend
+
+- Core Framework: React Native with Expo SDK 54
+- Language: Typescript
+- Routing & Navigation: expo-router
+- File / Media handling: expo-document-picker, expo-image-picker
+
+### Backend
+
+- Core Framework: Flask
+- Audio Processing: Librosa
+- Image Processing: Pillow
+- Matrix Math: Numpy
+- Security / CORS: flask_cors
+
+### Machine Learning
+
+- Deep Learning Engine: Tensorflow / Keras
+- Model Architectures: Convolutional Neural Network (CNN) trained on drone audio MFCC extractions
+
+### Cloud & Database
+
+- Platform: Supabase
+- Database: PostgreSQL
+- Authentication: Supabase Auth
+
 ## Prerequesites
 
 ## Installation Instructions
