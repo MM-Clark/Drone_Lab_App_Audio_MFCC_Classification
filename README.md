@@ -10,14 +10,14 @@ may be accessed via the Frontend_Drone_Audio_MFCC folder. This folder contains R
 ├── .gitignore 
 ├── README.md  
 ├── BackendDroneMfccApp/                         // Flask Python backend & ML model layer     
-│   ├── app.py                                   // Main API router & preprocessing pipeline   
-│   ├── newest_cnn_drone_mfcc_classifier.h5      // Trained CNN model weights                  
-│   └── temp_audio/                              // Temporary directory for audio processing    
+│     ├── app.py                                   // Main API router & preprocessing pipeline   
+│     ├── newest_cnn_drone_mfcc_classifier.h5      // Trained CNN model weights                  
+│     └── temp_audio/                              // Temporary directory for audio processing    
 └── FrontendDroneMfccApp/                        // React Native Expo mobile/web application   
-    ├── app/                                     // Expo Router application screens           
-    ├── constants/                               // Network & local configuration scripts      
-    ├── package.json                             // Frontend dependency manifest               
-    └── tsconfig.json                            // TypeScript engine configuration           
+      ├── app/                                     // Expo Router application screens           
+      ├── constants/                               // Network & local configuration scripts      
+      ├── package.json                             // Frontend dependency manifest               
+      └── tsconfig.json                            // TypeScript engine configuration           
 
 ## Tech Stack
 
