@@ -7,17 +7,17 @@ The application presented in the repository improves user accessibility to the h
 The Backend_Drone_Audio_MFCC folder houses all files related to the execution of the backend of the model. app.py must be running locally before running the frontend of the app. Once app.py is running, the frontend of the application 
 may be accessed via the Frontend_Drone_Audio_MFCC folder. This folder contains React Native Expo app files. 
 
-├── .gitignore
-├── README.md
-├── BackendDroneMfccApp/                         // Flask Python backend & ML model layer
-│   ├── app.py                                   // Main API router & preprocessing pipeline
-│   ├── newest_cnn_drone_mfcc_classifier.h5      // Trained CNN model weights
-│   └── temp_audio/                              // Temporary directory for audio processing
-└── FrontendDroneMfccApp/                        // React Native Expo mobile/web application
-    ├── app/                                     // Expo Router application screens
-    ├── constants/                               // Network & local configuration scripts
-    ├── package.json                             // Frontend dependency manifest
-    └── tsconfig.json                            // TypeScript engine configuration
+├── .gitignore \
+├── README.md  
+├── BackendDroneMfccApp/                         // Flask Python backend & ML model layer     \
+│   ├── app.py                                   // Main API router & preprocessing pipeline   \
+│   ├── newest_cnn_drone_mfcc_classifier.h5      // Trained CNN model weights                  \
+│   └── temp_audio/                              // Temporary directory for audio processing   \ 
+└── FrontendDroneMfccApp/                        // React Native Expo mobile/web application   \
+    ├── app/                                     // Expo Router application screens           \
+    ├── constants/                               // Network & local configuration scripts      \
+    ├── package.json                             // Frontend dependency manifest               \
+    └── tsconfig.json                            // TypeScript engine configuration           \
 
 ## Tech Stack
 
