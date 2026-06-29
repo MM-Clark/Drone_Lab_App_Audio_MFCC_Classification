@@ -7,6 +7,18 @@ The application presented in the repository improves user accessibility to the h
 The Backend_Drone_Audio_MFCC folder houses all files related to the execution of the backend of the model. app.py must be running locally before running the frontend of the app. Once app.py is running, the frontend of the application 
 may be accessed via the Frontend_Drone_Audio_MFCC folder. This folder contains React Native Expo app files. 
 
+├── .gitignore
+├── README.md
+├── BackendDroneMfccApp/                         // Flask Python backend & ML model layer
+│   ├── app.py                                   // Main API router & preprocessing pipeline
+│   ├── newest_cnn_drone_mfcc_classifier.h5      // Trained CNN model weights
+│   └── temp_audio/                              // Temporary directory for audio processing
+└── FrontendDroneMfccApp/                        // React Native Expo mobile/web application
+    ├── app/                                     // Expo Router application screens
+    ├── constants/                               // Network & local configuration scripts
+    ├── package.json                             // Frontend dependency manifest
+    └── tsconfig.json                            // TypeScript engine configuration
+
 ## Tech Stack
 
 The tech stack comprises of the following: 
@@ -26,16 +38,11 @@ The tech stack comprises of the following:
 - Matrix Math: Numpy
 - Security / CORS: flask_cors
 
-### Machine Learning
+### Machine Learning & Data Cloud
 
 - Deep Learning Engine: Tensorflow / Keras
-- Model Architectures: Convolutional Neural Network (CNN) trained on drone audio MFCC extractions
-
-### Cloud & Database
-
-- Platform: Supabase
-- Database: PostgreSQL
-- Authentication: Supabase Auth
+- Architecture: Convolutional Neural Network (CNN) evaluating a 128 x 128 x 3 BGR array scaled natively on a 0-255 integer footprint
+- Data Platform: Supabase backend-as-a-service leveraging PostgreSQL ledger logs protected by matching Row Level Security (RLS) identity tags.
 
 ## Prerequisites
 
@@ -55,7 +62,7 @@ Navigate to the backend and establish an isolated virtual environment:
   cd .\Backend_Drone_Audio_MFCC\
   python -m venv venv
 
-Activate the environment inside PowerShell (ensure execution policies allow execution scripts via Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process if needed):
+Activate the runtime environment context (ensure execution policies allow execution scripts via Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process if needed):
 
   .\venv\Scripts\Activate.ps1
 
@@ -63,7 +70,7 @@ Install the backend package requirements:
 
   pip install tensorflow flask flask-cors librosa pillow numpy werkzeug
 
-Ensure the trained model weights binary file (newest_cnn_drone_mfcc_classifier.h5) is placed directly inside the root directory of this backend folder.
+Verify newest_cnn_drone_mfcc_classifier.h5 is placed directly in the root of the BackendDroneMfccApp/ folder before running.
 
 ### 2. Frontend Seup
 
@@ -81,9 +88,9 @@ Create a .env file in the root of the Frontend_Drone_Audio_MFCC folder to declar
   EXPO_PUBLIC_SUPABASE_URL=https://your-supabase-project-url.supabase.co
   EXPO_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anonymous-public-key
 
-### Local Development Network Bridge (config.ts)
+### Subnet Routing Bridge (config.ts)
 
-To route calls from physical mobile devices across local subnets, open constants/config.ts and modify the machine identifier property:
+To test the software on a physical device over local Wi-Fi, open constants/config.ts and modify the machine identifier property:
 
   const LOCAL_IP = 'LOCAL_WIFI_IP_HERE'; 
 
@@ -93,20 +100,23 @@ To route calls from physical mobile devices across local subnets, open constants
 
 Always boot up the prediction server before attempting client requests. From the activated Python virtual environment terminal, execute:
 
+  cd BackendDroneMfccApp
+  .\venv\Scripts\Activate.ps1
   python app.py
 
-The console will initialize TensorFlow, load the model layer architectures globally into RAM, and display * Running on http://0.0.0.0:5000.
+The console will verify model integrity and host the entry endpoints at http://0.0.0.0:5000.
 
 ### 2. Initialize the Expo Frontend Client
 
-From the frontend project directory terminal, start the Metro bundler engine:
+In the frontend project directory terminal, start the Metro bundler engine:
 
+  cd FrontendDroneMfccApp
   npm run start
 
 ### Deployment Testing Selection
 
 From the interactive Metro command prompt, select your preferred target framework layer:
 
-Press w to run the browser client layout (http://localhost:8081).
+- Press w to run the browser client layout (http://localhost:8081).
 
-Scan the displayed QR code using the Expo Go application on your physical device to run mobile classifications directly over local Wi-Fi.
+- Scan the displayed QR code using the Expo Go application on your physical device to run mobile classifications directly over local Wi-Fi.
