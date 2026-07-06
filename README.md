@@ -25,18 +25,19 @@ The tech stack comprises of the following:
 
 ### Frontend
 
-- Core Framework: React Native with Expo SDK 54
+- Core Framework: React Native 0.81.5 with Expo SDK 54.0.35
 - Language: Typescript
 - Routing & Navigation: expo-router
 - File / Media handling: expo-document-picker, expo-image-picker
+- 
 
 ### Backend
 
-- Core Framework: Flask
-- Audio Processing: Librosa
-- Image Processing: Pillow
-- Matrix Math: Numpy
-- Security / CORS: flask_cors
+- Core Framework: Flask 3.1.3
+- Audio Processing: Librosa 0.11.0
+- Image Processing: Pillow 10.3.0
+- Matrix Math: Numpy 1.26.4
+- Security / CORS: flask_cors 6.0.2
 
 ### Machine Learning & Data Cloud
 
